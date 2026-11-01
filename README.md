@@ -68,7 +68,7 @@ El proyecto ya está publicado en **https://la-carrera-mas-linda.vercel.app** y 
 - No requiere build: Vercel sirve el sitio estático tal como está.
 - `vercel.json` define cabeceras de caché y seguridad; `.vercelignore` excluye las herramientas locales (`tools/`, `server.js`, `package.json`, etc.).
 - Framework preset: **Other** · Build command: *(ninguno)* · Output directory: raíz del repo.
-- **Vercel Web Analytics:** el snippet ya está incluido en `index.html`; para empezar a recolectar datos, abre **Project → Analytics → Enable** en el dashboard (o usa `POST /web/insights/toggle`).
+- **Vercel Web Analytics:** activado en producción (script `/_vercel/insights/script.js`). Importante: al habilitarlo en un proyecto hay que **volver a desplegar** después de pulsar *Enable* para que la ruta del script exista; si no, devuelve 404.
 - QR del sitio: `node tools/make-qr.js` (acepta `SITE_URL` si cambia el dominio). El póster se genera abriendo `tools/qr-poster.html` y capturándolo en 1080×1350.
 
 Para desplegar manualmente por CLI:
