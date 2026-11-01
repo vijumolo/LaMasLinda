@@ -13,6 +13,7 @@ Aplicación web **100 % responsiva** para consultar los resultados oficiales de 
 - Orden por posición general, tiempo, nombre o dorsal.
 - Ficha del deportista con tiempo, ritmo, velocidad, ciudad y posiciones.
 - Diploma: visualización, **descarga en PDF de 1 página** (generado en el navegador) e **impresión A4 horizontal**.
+- **Compartir por WhatsApp** y **QR** del sitio y del diploma de cada deportista (QR descargable en PNG e imprimible).
 - Descarga del PDF oficial completo de resultados.
 - Enlaces directos para compartir: `/?dorsal=195`.
 
@@ -32,9 +33,12 @@ print.html                 Vista de impresión del diploma
 data.js / data.json        Datos del evento (397 deportistas)
 assets/diplomas-oficiales.pdf    PDF oficial con los 397 diplomas
 assets/resultados-oficiales.pdf  PDF oficial de resultados
+assets/qr-sitio.svg              QR estático del sitio (vectorial)
+assets/qr-whatsapp.png           Póster 1080×1350 para estados de WhatsApp
 diplomas/img/*.webp        Imagen de cada diploma
 vendor/pdf-lib.min.js      Librería para generar el PDF individual
-tools/                     Scripts de extracción y generación de datos
+vendor/qrcode.js           Generador de QR en el navegador
+tools/                     Scripts de extracción, datos y QR
 server.js / iniciar.bat    Servidor local opcional
 ```
 
@@ -64,6 +68,8 @@ El proyecto ya está publicado en **https://la-carrera-mas-linda.vercel.app** y 
 - No requiere build: Vercel sirve el sitio estático tal como está.
 - `vercel.json` define cabeceras de caché y seguridad; `.vercelignore` excluye las herramientas locales (`tools/`, `server.js`, `package.json`, etc.).
 - Framework preset: **Other** · Build command: *(ninguno)* · Output directory: raíz del repo.
+- **Vercel Web Analytics:** el snippet ya está incluido en `index.html`; para empezar a recolectar datos, abre **Project → Analytics → Enable** en el dashboard (o usa `POST /web/insights/toggle`).
+- QR del sitio: `node tools/make-qr.js` (acepta `SITE_URL` si cambia el dominio). El póster se genera abriendo `tools/qr-poster.html` y capturándolo en 1080×1350.
 
 Para desplegar manualmente por CLI:
 

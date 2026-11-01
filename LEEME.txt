@@ -28,6 +28,7 @@ QUÉ PUEDES HACER
 - Ordenar por posición general, tiempo, nombre o dorsal.
 - Ver el diploma de cada deportista dentro de la misma página.
 - Descargar el diploma en PDF y/o imprimirlo (A4 horizontal).
+- Compartir la app o el diploma por WhatsApp y mostrar un código QR (descargable en PNG o imprimible).
 - Descargar el PDF oficial completo de resultados.
 - Compartir un enlace directo al diploma: .../index.html?dorsal=195
 
@@ -43,6 +44,18 @@ CÓMO SE DESCARGA EL DIPLOMA
 - "Imprimir" siempre funciona: abre una vista A4 horizontal con el diploma y
   el diálogo de impresión (también permite "Guardar como PDF").
 
+COMPARTIR Y QR
+--------------
+- En la portada: "Compartir por WhatsApp" (abre WhatsApp con el enlace y un
+  mensaje listo) y "Ver QR" (muestra el código QR del sitio).
+- En el diploma de cada deportista hay un botón "Compartir / QR" que genera el
+  enlace directo de ese deportista (?dorsal=XXXX) y su propio QR.
+- Desde el modal del QR puedes: abrir WhatsApp, copiar el enlace, descargar el
+  QR en PNG (1024×1024) o imprimirlo en A4.
+- assets/qr-whatsapp.png es un póster 1080×1350 listo para estados de WhatsApp.
+- Analítica: Vercel Web Analytics está incluido en la página; se activa una sola
+  vez en el panel de Vercel (Project → Analytics → Enable).
+
 CONTENIDO DE LA CARPETA
 -----------------------
 index.html                        Página principal
@@ -52,8 +65,11 @@ print.html                        Vista de impresión del diploma
 data.js / data.json               Datos generados desde los dos PDF (397 deportistas)
 assets/diplomas-oficiales.pdf      PDF oficial con los 397 diplomas (2,4 MB)
 assets/resultados-oficiales.pdf    PDF oficial de resultados para descarga
+assets/qr-sitio.svg                QR del sitio (vectorial, para imprimir)
+assets/qr-whatsapp.png             Póster 1080×1350 para estados de WhatsApp
 diplomas/img/d-XXXX.webp          Imagen de cada diploma (visualización e impresión)
 vendor/pdf-lib.min.js             Librería que genera el PDF individual en el navegador
+vendor/qrcode.js                  Generador de códigos QR en el navegador
 assets/favicon.svg                Ícono de la aplicación
 server.js / iniciar.bat           Servidor local (recomendado)
 tools/                            Scripts para regenerar los datos
