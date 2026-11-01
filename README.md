@@ -2,7 +2,9 @@
 
 Aplicación web **100 % responsiva** para consultar los resultados oficiales de la carrera y ver, descargar e imprimir el diploma de cada deportista.
 
-![Evento](https://img.shields.io/badge/Edición-Media%20Maratón%202026-b4126b) ![Estado](https://img.shields.io/badge/Deploy-Vercel-black)
+**Demo en producción:** https://la-carrera-mas-linda.vercel.app
+
+![Evento](https://img.shields.io/badge/Edición-Media%20Maratón%202026-b4126b) ![Deploy](https://img.shields.io/badge/Deploy-Vercel-black)
 
 ## Funcionalidades
 
@@ -57,13 +59,13 @@ node tools/build.js
 
 ## Deploy en Vercel
 
-El proyecto no requiere build: Vercel detecta el `index.html` y sirve el sitio estático.
+El proyecto ya está publicado en **https://la-carrera-mas-linda.vercel.app** y vinculado a este repositorio: cada `git push` a `main` genera un despliegue de producción automático.
 
-1. Importar el repositorio en [vercel.com/new](https://vercel.com/new).
-2. Framework preset: **Other**. Build command: *(vacío)*. Output directory: `./`.
-3. Deploy.
+- No requiere build: Vercel sirve el sitio estático tal como está.
+- `vercel.json` define cabeceras de caché y seguridad; `.vercelignore` excluye las herramientas locales (`tools/`, `server.js`, `package.json`, etc.).
+- Framework preset: **Other** · Build command: *(ninguno)* · Output directory: raíz del repo.
 
-También se puede desplegar por CLI:
+Para desplegar manualmente por CLI:
 
 ```bash
 npx vercel --prod
