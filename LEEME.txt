@@ -1,0 +1,81 @@
+LA CARRERA MÁS LINDA DE BOYACÁ · RESULTADOS Y DIPLOMAS 2026
+=============================================================
+
+QUÉ ES
+------
+Aplicación web 100% responsiva (computador, tableta y celular) para consultar
+los resultados de la carrera, filtrarlos y ver, descargar e imprimir el
+diploma de cada deportista. No necesita internet ni instalar programas:
+todo está incluido en esta carpeta.
+
+CÓMO ABRIRLA
+------------
+Opción A (recomendada):
+  1. Doble clic en "iniciar.bat".
+  2. Se abre el navegador en http://localhost:8080
+  3. La ventana muestra además una dirección http://192.168.x.x:8080 que
+     puedes abrir en tu celular si está en la misma red WiFi.
+  4. Para cerrar: cierra la ventana negra o presiona Ctrl+C.
+
+Opción B:
+  Abre "index.html" con doble clic. Todo funciona igual, excepto que la
+  descarga individual abre el PDF oficial en la página del diploma (ver abajo).
+
+QUÉ PUEDES HACER
+----------------
+- Buscar por nombre o número de dorsal (sin importar tildes ni mayúsculas).
+- Filtrar por distancia (21K, 10K, 5K, 1K) y por género (Damas / Caballeros).
+- Ordenar por posición general, tiempo, nombre o dorsal.
+- Ver el diploma de cada deportista dentro de la misma página.
+- Descargar el diploma en PDF y/o imprimirlo (A4 horizontal).
+- Descargar el PDF oficial completo de resultados.
+- Compartir un enlace directo al diploma: .../index.html?dorsal=195
+
+CÓMO SE DESCARGA EL DIPLOMA
+---------------------------
+- Con el servidor (iniciar.bat) o publicado en internet: al pulsar
+  "Descargar diploma" el navegador recorta del PDF oficial solamente la página
+  del deportista y descarga un PDF de 1 página con calidad original
+  (ej.: "Diploma - María Victoria Ortega - La Carrera mas Linda 2026.pdf").
+- Si abres index.html directamente (file://), por seguridad el navegador no
+  permite leer archivos locales: el botón abre el PDF oficial en la página
+  exacta del diploma y desde el visor puedes descargarlo o imprimirlo.
+- "Imprimir" siempre funciona: abre una vista A4 horizontal con el diploma y
+  el diálogo de impresión (también permite "Guardar como PDF").
+
+CONTENIDO DE LA CARPETA
+-----------------------
+index.html                        Página principal
+styles.css                        Estilos y diseño responsivo
+app.js                            Búsqueda, filtros, modal, descarga e impresión
+print.html                        Vista de impresión del diploma
+data.js / data.json               Datos generados desde los dos PDF (397 deportistas)
+assets/diplomas-oficiales.pdf      PDF oficial con los 397 diplomas (2,4 MB)
+assets/resultados-oficiales.pdf    PDF oficial de resultados para descarga
+diplomas/img/d-XXXX.webp          Imagen de cada diploma (visualización e impresión)
+vendor/pdf-lib.min.js             Librería que genera el PDF individual en el navegador
+assets/favicon.svg                Ícono de la aplicación
+server.js / iniciar.bat           Servidor local (recomendado)
+tools/                            Scripts para regenerar los datos
+
+CÓMO ACTUALIZAR PARA OTRA EDICIÓN
+---------------------------------
+1. Coloca los dos PDF nuevos en la carpeta superior ("La Carrera mas Linda"),
+   con los mismos nombres:
+     - FINAL X CATEGORIAS Y GENERO.pdf
+     - DIPLOMAS.pdf
+2. En esta carpeta ejecuta:
+     npm install          (solo la primera vez en cada equipo)
+     node tools\build.js
+3. Se regeneran data.js, data.json, las imágenes y las copias de los PDF.
+   Para forzar el render de las imágenes:
+     set FORCE_RENDER=1 && node tools\build.js
+
+NOTAS
+-----
+- Los diplomas corresponden a 397 deportistas; 396 tienen fila en el PDF de
+  resultados. El deportista con dorsal 2876 aparece con diploma pero sin
+  resultado en el listado oficial.
+- Los datos se obtuvieron automáticamente de los PDF entregados por TCT.
+- Los diplomas son emitidos por TCT con fines informativos y como constancia
+  de participación.

@@ -1,0 +1,16 @@
+{
+  "name": "la-carrera-mas-linda",
+  "version": "1.0.0",
+  "description": "Resultados y diplomas de La Carrera más Linda de Boyacá 2026",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "build": "node tools/build.js"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "^0.1.100",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^3.11.174"
+  }
+}

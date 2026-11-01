@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resultados y Diplomas · La Carrera más Linda de Boyacá 2026</title>
+<meta name="description" content="Consulta los resultados oficiales de La Carrera más Linda de Boyacá 2026 y descarga, visualiza o imprime tu diploma de participación.">
+<meta name="theme-color" content="#b4126b">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body id="top">
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="#top" aria-label="Inicio">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" width="34" height="34" aria-hidden="true">
+          <circle cx="24" cy="24" r="22" fill="none" stroke="currentColor" stroke-width="2.5" opacity=".35"/>
+          <path d="M14 30c4-1 7-4 8-8l2-7 5 1-1 5 6 4-2 4-6-3-3 8 7 5-2 4-9-6c-1-1-1-2 0-3l2-3-4 2-3-3z" fill="currentColor"/>
+          <circle cx="28.5" cy="11.5" r="2.6" fill="currentColor"/>
+        </svg>
+      </span>
+      <span class="brand-text">
+        <strong>La Carrera más Linda</strong>
+        <small>Boyacá · Media Maratón 2026</small>
+      </span>
+    </a>
+    <div class="header-actions">
+      <a class="btn btn-ghost btn-results" href="assets/resultados-oficiales.pdf"
+         download="Resultados - La Carrera mas Linda 2026.pdf">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3v11m0 0 4-4m-4 4-4-4M4 17v3h16v-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Resultados PDF</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="wrap hero-inner">
+    <p class="eyebrow">Resultados oficiales · Diplomas digitales</p>
+    <h1>Encuentra tu resultado<br><span>y descarga tu diploma</span></h1>
+    <p class="hero-sub">Chiquinquirá, Boyacá · 25 de octubre de 2026</p>
+
+    <form class="search" id="searchForm" role="search" autocomplete="off">
+      <svg class="search-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <label class="sr-only" for="searchInput">Buscar por nombre o dorsal</label>
+      <input id="searchInput" name="q" type="search" inputmode="search"
+             placeholder="Busca tu nombre o dorsal (ej. 195 o María)">
+      <button type="submit" class="btn btn-primary search-btn">Buscar</button>
+    </form>
+
+    <div class="hero-stats" id="heroStats" aria-label="Resumen del evento"></div>
+  </div>
+</section>
+
+<main>
+  <section class="filters-wrap" aria-label="Filtros de resultados">
+    <div class="wrap filters">
+      <div class="filter-group">
+        <span class="filter-label" id="catLabel">Distancia</span>
+        <div class="pills" id="catPills" role="group" aria-labelledby="catLabel"></div>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label" id="genderLabel">Género</span>
+        <div class="segmented" id="genderSeg" role="group" aria-labelledby="genderLabel"></div>
+      </div>
+      <div class="filter-group filter-sort">
+        <label class="filter-label" for="sortSelect">Ordenar por</label>
+        <select id="sortSelect">
+          <option value="pos">Posición general</option>
+          <option value="time">Tiempo (menor a mayor)</option>
+          <option value="name">Nombre (A–Z)</option>
+          <option value="bib">Dorsal</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap results" id="results" aria-live="polite">
+    <div class="results-head">
+      <h2 class="results-title">Resultados <span id="count"></span></h2>
+      <p class="results-hint">Toca un deportista para ver, descargar o imprimir su diploma.</p>
+    </div>
+
+    <div class="table" role="table" aria-label="Lista de resultados">
+      <div class="thead" role="row">
+        <span role="columnheader">Pos.</span>
+        <span role="columnheader">Deportista</span>
+        <span role="columnheader">Tiempo</span>
+        <span role="columnheader">Ritmo</span>
+        <span role="columnheader" class="th-actions">Diploma</span>
+      </div>
+      <div id="rows" role="rowgroup"></div>
+    </div>
+
+    <div class="empty" id="emptyState" hidden>
+      <div class="empty-emoji" aria-hidden="true">🔎</div>
+      <h3>Sin resultados</h3>
+      <p>No encontramos deportistas con esos criterios. Prueba con otro nombre o dorsal.</p>
+      <button class="btn btn-primary" id="clearFilters" type="button">Ver todos</button>
+    </div>
+
+    <button class="btn btn-more" id="loadMore" type="button" hidden>Cargar más resultados</button>
+  </section>
+
+  <section class="wrap download-banner">
+    <div class="banner-card">
+      <div>
+        <h2>Resultados oficiales completos</h2>
+        <p>Descarga el PDF oficial con la clasificación por categorías y género.</p>
+      </div>
+      <a class="btn btn-light" href="assets/resultados-oficiales.pdf"
+         download="Resultados - La Carrera mas Linda 2026.pdf">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3v11m0 0 4-4m-4 4-4-4M4 17v3h16v-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Descargar PDF
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <p><strong>La Carrera más Linda de Boyacá</strong> · Edición Media Maratón 2026</p>
+    <p class="muted">Diplomas emitidos por TCT con fines informativos y como constancia de participación.</p>
+  </div>
+</footer>
+
+<!-- Modal de diploma -->
+<div class="modal" id="modal" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalName" aria-describedby="modalMeta">
+    <button class="modal-close" id="modalClose" aria-label="Cerrar diploma" data-close>&times;</button>
+
+    <div class="modal-head">
+      <div>
+        <p class="modal-kicker" id="modalKicker">Diploma de participación</p>
+        <h2 id="modalName">—</h2>
+        <p class="modal-meta" id="modalMeta">—</p>
+      </div>
+      <div class="modal-bib" id="modalBib" hidden>
+        <span>Dorsal</span><strong>—</strong>
+      </div>
+    </div>
+
+    <div class="modal-body">
+      <div class="diploma-preview" id="diplomaPreview">
+        <div class="preview-loading" id="previewLoading">
+          <span class="spinner" aria-hidden="true"></span>
+          <p>Cargando diploma…</p>
+        </div>
+        <img id="diplomaImg" alt="" hidden>
+        <div class="preview-missing" id="previewMissing" hidden>
+          <div aria-hidden="true">📄</div>
+          <p>Este deportista no tiene diploma disponible.</p>
+        </div>
+      </div>
+
+      <aside class="modal-side" aria-label="Datos del deportista">
+        <dl class="stats" id="modalStats"></dl>
+        <div class="modal-actions">
+          <a class="btn btn-primary" id="btnDownload" download>
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3v11m0 0 4-4m-4 4-4-4M4 17v3h16v-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span id="btnDownloadLabel">Descargar diploma</span>
+          </a>
+          <button class="btn btn-outline" id="btnPrint" type="button">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M7 9V3h10v6M7 18H5a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M7 14h10v7H7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+            Imprimir
+          </button>
+        </div>
+        <p class="modal-note" id="modalNote">El diploma se descarga en PDF original y también puede imprimirse en tamaño horizontal.</p>
+      </aside>
+    </div>
+  </div>
+</div>
+
+<noscript>
+  <div class="wrap noscript">Necesitas activar JavaScript para consultar los resultados y diplomas.</div>
+</noscript>
+
+<script src="vendor/pdf-lib.min.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

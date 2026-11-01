@@ -1,0 +1,19 @@
+{
+  "name": "La Carrera más Linda · Resultados y Diplomas 2026",
+  "short_name": "Carrera más Linda",
+  "description": "Resultados oficiales y diplomas digitales de La Carrera más Linda de Boyacá 2026.",
+  "lang": "es",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#fff8fb",
+  "theme_color": "#b4126b",
+  "icons": [
+    {
+      "src": "assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
