@@ -6,7 +6,7 @@
   "type": "commonjs",
   "scripts": {
     "start": "node server.js",
-    "build": "node tools/build.js"
+    "datos": "node tools/build.js"
   },
   "dependencies": {
     "@napi-rs/canvas": "^0.1.100",
