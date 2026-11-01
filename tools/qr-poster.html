@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>QR La Carrera más Linda</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1350px; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+    background:
+      radial-gradient(700px 500px at 15% 0%, rgba(255,255,255,.35), transparent 60%),
+      linear-gradient(150deg, #b4126b 0%, #8a1f9e 55%, #5a1470 100%);
+    color: #fff;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 64px 70px 56px;
+    overflow: hidden;
+    position: relative;
+  }
+  .deco { position: absolute; border-radius: 50%; background: rgba(255,255,255,.08); }
+  .d1 { width: 520px; height: 520px; top: -180px; right: -140px; }
+  .d2 { width: 380px; height: 380px; bottom: -140px; left: -120px; }
+  .eyebrow { letter-spacing: .3em; font-size: 24px; font-weight: 700; opacity: .9; text-transform: uppercase; }
+  h1 { font-size: 74px; line-height: 1.05; font-weight: 800; text-align: center; margin-top: 22px; letter-spacing: -.02em; }
+  h1 span { display: block; color: #ffd6ea; }
+  .sub { font-size: 30px; opacity: .92; margin-top: 18px; text-align: center; }
+  .card {
+    margin-top: 46px; background: #fff; border-radius: 42px;
+    padding: 40px 40px 34px; width: 640px;
+    box-shadow: 0 30px 70px rgba(40, 4, 27, .35);
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .card img { width: 470px; height: 470px; display: block; }
+  .card p { color: #4a2540; font-size: 27px; text-align: center; margin-top: 24px; font-weight: 600; line-height: 1.3; }
+  .url {
+    margin-top: 30px; font-size: 27px; font-weight: 700; letter-spacing: .01em;
+    background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.35);
+    padding: 14px 26px; border-radius: 999px;
+  }
+  .chips { display: flex; gap: 14px; margin-top: auto; }
+  .chip { font-size: 24px; font-weight: 700; padding: 10px 22px; border-radius: 999px; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.3); }
+  .foot { margin-top: 22px; font-size: 21px; opacity: .8; letter-spacing: .04em; }
+</style>
+</head>
+<body>
+  <div class="deco d1"></div>
+  <div class="deco d2"></div>
+  <p class="eyebrow">La Carrera más Linda de Boyacá</p>
+  <h1>Resultados y diplomas<span>Media Maratón 2026</span></h1>
+  <p class="sub">Escanea el código y consulta tu resultado</p>
+  <div class="card">
+    <img src="../assets/qr-sitio.svg" alt="Código QR">
+    <p>Descarga tu diploma y compártelo con tu familia</p>
+  </div>
+  <p class="url">la-carrera-mas-linda.vercel.app</p>
+  <div class="chips">
+    <span class="chip">21K</span><span class="chip">10K</span><span class="chip">5K</span><span class="chip">1K</span>
+  </div>
+  <p class="foot">397 deportistas · 25 de octubre de 2026 · Chiquinquirá, Boyacá</p>
+</body>
+</html>

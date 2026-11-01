@@ -405,17 +405,209 @@
     generateDiplomaPdf(current);
   });
 
+  /* ---------- Compartir y QR ---------- */
+  var shareModal = $('#shareModal');
+  var shareTarget = null;
+  var shareLastFocus = null;
+
+  function siteBase() {
+    if (location.protocol === 'http:' || location.protocol === 'https:') {
+      return location.origin + location.pathname.replace(/[^/]*$/, '');
+    }
+    return 'https://la-carrera-mas-linda.vercel.app/';
+  }
+
+  function shareUrl(a) {
+    var base = siteBase();
+    if (!a) {
+      try {
+        var u = new URL(base);
+        u.search = ''; u.hash = '';
+        return u.toString();
+      } catch (e) { return base; }
+    }
+    return base + '?dorsal=' + encodeURIComponent(a.dorsal);
+  }
+
+  function shareMessage(a) {
+    if (!a) {
+      return 'Resultados y diplomas oficiales de La Carrera más Linda de Boyacá 2026 🏃‍♀️🏅 Consulta tu resultado y descarga tu diploma aquí: ' + shareUrl(null);
+    }
+    return 'Diploma de ' + a.name + ' — La Carrera más Linda de Boyacá 2026 🏅 Míralo, descárgalo e imprímelo aquí: ' + shareUrl(a);
+  }
+
+  function waLink(a) {
+    return 'https://wa.me/?text=' + encodeURIComponent(shareMessage(a));
+  }
+
+  function buildQrSvg(text) {
+    if (!window.qrcode) return '';
+    var qr = window.qrcode(0, 'M');
+    qr.addData(text);
+    qr.make();
+    return qr.createSvgTag({ cellSize: 8, margin: 3 });
+  }
+
+  var toastTimer = null;
+  function toast(msg) {
+    var t = document.getElementById('toast');
+    if (!t) {
+      t = el('div', 'toast');
+      t.id = 'toast';
+      t.setAttribute('role', 'status');
+      t.setAttribute('aria-live', 'polite');
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.classList.add('show');
+    window.clearTimeout(toastTimer);
+    toastTimer = window.setTimeout(function () { t.classList.remove('show'); }, 2400);
+  }
+
+  function openShare(a, trigger) {
+    shareTarget = a || null;
+    shareLastFocus = trigger || document.activeElement;
+
+    $('#shareTitle').textContent = a ? 'Comparte este diploma' : 'Comparte la app';
+    $('#shareSubtitle').textContent = a
+      ? a.name + ' · ' + a.distance + (a.catLabel ? ' · ' + a.catLabel : '')
+      : (EVENT.name || 'La Carrera más Linda') + ' · ' + (EVENT.dateLabel || '2026');
+
+    var url = shareUrl(a);
+    $('#qrUrl').textContent = url;
+    $('#qrBox').innerHTML = buildQrSvg(url);
+    $('#shareWa').setAttribute('href', waLink(a));
+
+    shareModal.hidden = false;
+    document.body.classList.add('no-scroll');
+    window.setTimeout(function () { $('#shareClose').focus(); }, 60);
+  }
+
+  function closeShare() {
+    if (shareModal.hidden) return;
+    shareModal.hidden = true;
+    if (modal.hidden) document.body.classList.remove('no-scroll');
+    if (shareLastFocus && shareLastFocus.focus) shareLastFocus.focus();
+  }
+
+  Array.prototype.forEach.call(shareModal.querySelectorAll('[data-share-close]'), function (b) {
+    b.addEventListener('click', closeShare);
+  });
+
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text);
+    }
+    return new Promise(function (resolve, reject) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); resolve(); } catch (e) { reject(e); }
+      ta.remove();
+    });
+  }
+
+  $('#copyLink').addEventListener('click', function () {
+    copyText(shareUrl(shareTarget)).then(function () {
+      toast('Enlace copiado');
+    }).catch(function () {
+      toast('No se pudo copiar; selecciona el enlace manualmente');
+    });
+  });
+  function qrFileName() {
+    return 'QR - La Carrera mas Linda 2026' + (shareTarget ? ' - ' + safeFileName(shareTarget.name) : '') + '.png';
+  }
+
+  $('#downloadQr').addEventListener('click', function () {
+    var svgEl = $('#qrBox').querySelector('svg');
+    if (!svgEl) { toast('QR no disponible'); return; }
+    var clone = svgEl.cloneNode(true);
+    clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    var src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(clone));
+    var img = new Image();
+    img.onload = function () {
+      var size = 1024;
+      var canvas = document.createElement('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      var ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, size, size);
+      var pad = Math.round(size * 0.05);
+      ctx.drawImage(img, pad, pad, size - pad * 2, size - pad * 2);
+      var link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
+      link.download = qrFileName();
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      toast('QR descargado');
+    };
+    img.onerror = function () { toast('No se pudo generar el QR'); };
+    img.src = src;
+  });
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  $('#printQr').addEventListener('click', function () {
+    var svg = $('#qrBox').innerHTML;
+    if (!svg) { toast('QR no disponible'); return; }
+    var url = $('#qrUrl').textContent;
+    var title = shareTarget ? 'Diploma de ' + shareTarget.name : 'La Carrera más Linda de Boyacá 2026';
+    var w = window.open('', '_blank');
+    if (!w) { toast('Permite las ventanas emergentes para imprimir'); return; }
+    w.document.write(
+      '<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>QR</title>' +
+      '<style>@page{size:A4 portrait;margin:18mm}body{font-family:"Segoe UI",system-ui,Arial,sans-serif;text-align:center;color:#2b1026;margin:0}' +
+      'h1{color:#6d0b46;font-size:19pt;margin:0 0 3mm}p{margin:2mm 0;font-size:11pt}.qr{width:115mm;margin:8mm auto}.qr svg{width:100%;height:auto}' +
+      'p.url{font-weight:700;font-size:12pt}p.small{color:#6b4a63;font-size:10pt}</style></head><body>' +
+      '<h1>' + escapeHtml(title) + '</h1>' +
+      '<p>Resultados y diplomas · Media Maratón 2026</p>' +
+      '<div class="qr">' + svg + '</div>' +
+      '<p class="url">' + escapeHtml(url) + '</p>' +
+      '<p class="small">Escanea el código con la cámara de tu celular.</p>' +
+      '</body></html>'
+    );
+    w.document.close();
+    w.focus();
+    window.setTimeout(function () { try { w.print(); } catch (e) {} }, 500);
+  });
+
+  $('#openQr').addEventListener('click', function () { openShare(null, this); });
+  $('#btnShare').addEventListener('click', function () { openShare(current, this); });
+  $('#shareWaTop').setAttribute('href', waLink(null));
+
+
+
+  function trapFocus(container, e) {
+    var nodes = container.querySelectorAll('a[href], button:not([disabled]):not([hidden]), [tabindex]:not([tabindex="-1"])');
+    var list = Array.prototype.filter.call(nodes, function (n) {
+      return n.offsetParent !== null || n === document.activeElement;
+    });
+    if (!list.length) return;
+    var first = list[0];
+    var last = list[list.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+
   document.addEventListener('keydown', function (e) {
+    if (!shareModal.hidden) {
+      if (e.key === 'Escape') { e.preventDefault(); closeShare(); return; }
+      if (e.key === 'Tab') trapFocus(shareModal, e);
+      return;
+    }
     if (modal.hidden) return;
     if (e.key === 'Escape') { e.preventDefault(); closeModal(); return; }
-    if (e.key === 'Tab') {
-      var focusables = modal.querySelectorAll('a[href], button:not([hidden]), [tabindex]:not([tabindex="-1"])');
-      if (!focusables.length) return;
-      var first = focusables[0];
-      var last = focusables[focusables.length - 1];
-      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-    }
+    if (e.key === 'Tab') trapFocus(modal, e);
   });
 
   /* ---------- Eventos generales ---------- */

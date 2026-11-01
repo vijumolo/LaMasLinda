@@ -393,6 +393,42 @@ body.no-scroll { overflow: hidden; }
 .modal-actions .btn { width: 100%; }
 .modal-note { margin: 0; font-size: .78rem; color: var(--ink-soft); }
 
+/* ---------- Compartir / QR ---------- */
+.hero-share { display: flex; flex-wrap: wrap; gap: .6rem; justify-content: center; margin-top: 1.15rem; }
+.btn-wa { background: #25d366; color: #08351f; box-shadow: 0 8px 20px rgba(37, 211, 102, .28); }
+.btn-wa:hover { background: #1ebe5b; }
+.btn-wa-outline { background: #fff; color: #0f7a4a; border-color: #bfe9d2; }
+.btn-wa-outline:hover { background: #eafaf1; border-color: #25d366; }
+
+.modal-share { z-index: 120; }
+.modal-card-sm { width: min(470px, 100%); }
+.share-body {
+  padding: 1.2rem 1.4rem 1.4rem;
+  display: flex; flex-direction: column; align-items: center; gap: .9rem;
+  overflow: auto;
+  background: linear-gradient(180deg, #fff, var(--cream));
+}
+.qr-box {
+  background: #fff; border: 1px solid var(--line); border-radius: 18px;
+  padding: 12px; width: min(255px, 68vw);
+  box-shadow: var(--shadow-sm);
+}
+.qr-box svg { width: 100%; height: auto; display: block; }
+.qr-url { margin: 0; font-size: .82rem; color: var(--ink-soft); word-break: break-all; text-align: center; }
+.share-actions { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; width: 100%; }
+.share-actions .btn { width: 100%; }
+.toast {
+  position: fixed; left: 50%; bottom: 1.4rem;
+  transform: translate(-50%, 20px);
+  background: #2b1026; color: #fff;
+  padding: .7rem 1.1rem; border-radius: 999px;
+  font-size: .9rem; font-weight: 600;
+  opacity: 0; pointer-events: none;
+  transition: opacity .2s ease, transform .2s ease;
+  z-index: 200; max-width: calc(100% - 2rem); text-align: center;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
 /* ---------- Responsive ---------- */
 @media (max-width: 960px) {
   .filter-sort { margin-left: 0; }
@@ -447,6 +483,10 @@ body.no-scroll { overflow: hidden; }
   .stats { grid-template-columns: 1fr 1fr; }
   .banner-card { text-align: center; justify-content: center; }
   .banner-card .btn { width: 100%; }
+  .hero-share { flex-direction: column; align-items: stretch; }
+  .hero-share .btn { width: 100%; }
+  .share-actions { grid-template-columns: 1fr; }
+  .qr-box { width: min(235px, 62vw); }
 }
 
 @media (max-width: 380px) {
